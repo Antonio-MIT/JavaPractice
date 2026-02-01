@@ -1,0 +1,29 @@
+// X20: In‑Order Traversal with Range Filtering
+// Reinforces:
+//   - Q13: Passing constraints DOWNWARD.
+//   - Q19: Downward flow = node + accumulator + constraints.
+//   - Q20: Accumulator hidden from API.
+//   - Q21: Helper maintains state.
+
+public List<Integer> inorderRange(BinNode root, int lo, int hi) {
+    List<Integer> result = new ArrayList<>();
+    inorderRange(root, lo, hi, result);
+    return result;
+}
+
+private void inorderRange(BinNode node, int lo, int hi, List<Integer> acc) {
+
+    if (node == null) {
+        return;
+    }
+
+    // Q13: Constraints flow DOWNWARD.
+    inorderRange(node.left(), lo, hi, acc);
+
+    // Only add values within range
+    if (node.value() >= lo && node.value() <= hi) {
+        acc.add(node.value());
+    }
+
+    inorderRange(node.right(), lo, hi, acc);
+}

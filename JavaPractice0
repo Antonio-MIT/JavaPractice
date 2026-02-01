@@ -1,0 +1,50 @@
+// GOAL: Write a recursive function to set the value for each node in a binary tree to be its depth then return the modified tree. Assume that nodes store integer values. On the initial call to BTsetdepth, depth is 0.
+// Here are methods that you can use on the BinNode objects:
+// interface BinNode {
+//      public int value();
+//      public void setValue(int v);
+//      public BinNode left();
+//      public BinNode right();
+//      public boolean isLeaf();
+//   }
+
+
+// Q14: The function needs TWO pieces of information:
+//      (1) the current node, and (2) the current depth.
+public BinNode BTsetdepth(BinNode root, int depth) {
+
+    // Q8: The initial call uses depth = 0 because the root is at depth 0.
+    //     (Depth increases as we move downward — Q9.)
+
+    // Q5: Base case — local traversal style.
+    //     If the node is null, there is no work to do and nothing to return.
+    if (root == null) {
+        return null;
+    }
+
+    // Q7: Passing changing information DOWN the tree.
+    //     Depth changes from node to node, so we must update it.
+    // Q3: Local work at the node is self-contained.
+    root.setValue(depth);
+
+    // Q1 & Q6: Information flows DOWN unchanged except for depth,
+    //          which is the only changing parameter here.
+
+    // Q3: Local traversal still uses the structure (left/right pointers)
+    //     but does not require information from the parent beyond the pointer.
+    // Q10: We are NOT collecting information upward here — no return values
+    //      from children are combined. This is NOT a collect-and-return pattern.
+
+    // Recurse left with depth+1
+    BTsetdepth(root.left(), depth + 1);
+
+    // Recurse right with depth+1
+    BTsetdepth(root.right(), depth + 1);
+
+    // Q5: Why no return from children?
+    //     Because this is a local traversal with downward-only information flow.
+    //     The work is self-contained at each node.
+
+    // Return the modified tree (root of this subtree).
+    return root;
+}

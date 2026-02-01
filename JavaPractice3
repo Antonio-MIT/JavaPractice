@@ -1,0 +1,24 @@
+// X19: Pre‑Order Traversal (Root, Left, Right)
+// Reinforces:
+//   - Q18: Wrapper hides recursion.
+//   - Q19: Downward flow = node + accumulator.
+//   - Q21: Helper maintains shared state.
+
+public List<Integer> preorderKeys(BinNode root) {
+    List<Integer> out = new ArrayList<>();
+    preorderKeys(root, out);
+    return out;
+}
+
+private void preorderKeys(BinNode node, List<Integer> acc) {
+
+    if (node == null) {
+        return;
+    }
+
+    // Visit root first
+    acc.add(node.value());
+
+    preorderKeys(node.left(), acc);
+    preorderKeys(node.right(), acc);
+}

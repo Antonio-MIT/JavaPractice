@@ -1,0 +1,25 @@
+// X23: Count Nodes Using an Accumulator
+// Reinforces:
+//   - Q14: Accumulator collects results downward.
+//   - Q17: Contrast with return-value recursion.
+//   - Q26: Helper must accept accumulator + node.
+//   - Q27: Helper pattern supports shared state + downward flow.
+
+public int countNodesAcc(BinNode root) {
+    int[] acc = new int[1];   // mutable container for count
+    countNodesAcc(root, acc);
+    return acc[0];
+}
+
+private void countNodesAcc(BinNode node, int[] acc) {
+
+    if (node == null) {
+        return;
+    }
+
+    // Q14: Accumulator updated directly.
+    acc[0]++;
+
+    countNodesAcc(node.left(), acc);
+    countNodesAcc(node.right(), acc);
+}

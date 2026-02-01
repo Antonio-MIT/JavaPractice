@@ -1,0 +1,20 @@
+// X22: Count Nodes Using Return‑Value Recursion
+// Reinforces:
+//   - Q17: Return‑value recursion vs accumulator recursion.
+//   - Q13: Upward flow = computed results.
+//   - Q14: No accumulator needed for simple sums.
+//   - Q15: Collect‑and‑return pattern is natural for counts.
+
+public int countNodes(BinNode root) {
+
+    // Q17: Return-value recursion returns counts upward.
+    if (root == null) {
+        return 0;
+    }
+
+    int left = countNodes(root.left());
+    int right = countNodes(root.right());
+
+    // Q15: Natural formula: 1 + left + right.
+    return 1 + left + right;
+}

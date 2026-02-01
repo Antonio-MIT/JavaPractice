@@ -1,0 +1,84 @@
+// GOAL: Given a binary tree, check if the tree satisfies the property that for each node, the sum of the values of its left and right children are equal to the node's value. 
+// If a node has only one child, then the node should have the same value as that child. Leaf nodes automatically satisfy the property.
+
+// ------------------------------------------------------------
+// BTchecksum: Check-sum property on a binary tree
+//
+// ROOTED STUDY QUESTIONS (aligned to your MC set)
+//
+// CORE CONCEPTS
+// 1. What direction does information flow in recursive tree functions? (Q1)
+//    → Up (return values) and down (parameters).
+//
+// 2. Why is information flow challenging? (Q2)
+//    → Because recursion may need to move information in *both* directions.
+//
+// 3. Is this a local traversal? (Q3–5)
+//    • No — this is NOT a local traversal because:
+//      - It *returns* information upward (boolean)
+//      - It *uses* information from children
+//    • Local traversals do self-contained work and return nothing.
+//
+// PASSING INFORMATION DOWN
+// 6. What information is passed down? (Q6)
+//    → Only the subtree root pointer (unchanging).
+//
+// 7. Why don’t we pass depth or other changing info? (Q7–9)
+//    → This problem doesn’t require changing parameters.
+//
+// COLLECT‑AND‑RETURN
+// 10. What information is collected upward? (Q10)
+//     → Whether each subtree satisfies the check-sum rule.
+//
+// 11–13. Where do results come from? What mistakes must be avoided?
+//     • Left and right results come from recursive calls. (Q11)
+//     • Formula resembles: return leftResult && rightResult. (Q12)
+//     • Avoid: forgetting to return, forgetting a subtree, ignoring results. (Q13)
+//
+// APPLIED EXERCISES
+// 14. What parameters does this exercise need? (Q14)
+//     → Only the node (root of subtree).
+//
+// 15. What property must each node satisfy? (Q15)
+//     → value == sum(left child + right child).
+//
+// 16. What is a leaf? (Q16)
+//     → A node with no children.
+//
+// 17. What should an empty tree return? (Q17)
+//     → true for this boolean property (analogous to 0 for sums).
+//
+// COMBINATION PROBLEMS
+// 18. What type of information flow does this require? (Q18)
+//     → Both downward (node pointer) and upward (boolean results).
+//
+// 19–20. Why pass target downward? Why return boolean upward? (Q19–20)
+//     → Here, we pass no target, but the pattern is identical:
+//       - Downward: what to check
+//       - Upward: whether the subtree satisfies the condition
+//
+// ------------------------------------------------------------
+public boolean BTchecksum(BinNode root) {
+
+    // Base Case: empty subtree → satisfies property (Q17)
+    if (root == null) {
+        return true;
+    }
+
+    // Base Case: leaf node → no children, so rule holds (Q16)
+    if (root.isLeaf()) {
+        return true;
+    }
+
+    // Local Work: compute child sum (Q15)
+    int leftVal = (root.left() == null) ? 0 : root.left().value();
+    int rightVal = (root.right() == null) ? 0 : root.right().value();
+
+    // Local Check: does this node satisfy the rule? (Q15)
+    if (root.value() != leftVal + rightVal) {
+        return false;
+    }
+
+    // Recursive Step: collect-and-return from both subtrees (Q10–13, Q18)
+    return BTchecksum(root.left()) && BTchecksum(root.right());
+}

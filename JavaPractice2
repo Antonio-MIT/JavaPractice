@@ -1,0 +1,38 @@
+// X18: In‑Order Traversal with Wrapper + Helper
+// Goal: Return a list of keys in in‑order (L, Root, R).
+// This exercise reinforces:
+//   - Q18: Why wrapper methods hide implementation details.
+//   - Q19: What flows DOWN (node, accumulator) and what flows UP (nothing).
+//   - Q20: Why accumulators are NOT part of the public API.
+//   - Q21: How helpers maintain state across recursive calls.
+
+public List<Integer> inorderKeys(BinNode root) {
+
+    // Q20: Accumulator is implementation detail, not conceptual state.
+    List<Integer> result = new ArrayList<>();
+
+    // Q18: Wrapper delegates real work to helper.
+    inorderKeys(root, result);
+
+    return result;
+}
+
+// Helper method (recursive)
+private void inorderKeys(BinNode node, List<Integer> acc) {
+
+    // Q21: State persists because the SAME accumulator is passed downward.
+    // Q5 (from earlier sets): Base case — empty subtree.
+    if (node == null) {
+        return;
+    }
+
+    // Q19: DOWNWARD flow: node reference + accumulator.
+    inorderKeys(node.left(), acc);
+
+    // Local work: add current value.
+    acc.add(node.value());
+
+    inorderKeys(node.right(), acc);
+
+    // Q19: UPWARD flow: nothing returned — accumulator handles state.
+}
